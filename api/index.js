@@ -13,7 +13,14 @@ import serverless from "serverless-http";
 
 dotenv.config();
 
-await connectDB();
+let isConnected = false;
+
+async function connectDB() {
+  if (isConnected) return;
+  await mongoose.connect("mongodb+srv://logy:123@cluster0.pegtvdi.mongodb.net/logy-manager");
+  isConnected = true;
+  console.log("✅ MongoDB conectado correctamente");
+}
 
 const app = express();
 
@@ -50,6 +57,7 @@ app.use("/api/registro", registroRoutes);
 app.use("/api/credenciales", credencialesRoutes);
 
 export default serverless(app);
+
 
 
 
