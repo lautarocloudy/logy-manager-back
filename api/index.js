@@ -49,11 +49,10 @@ app.use("/api/cursos", cursosRoutes);
 app.use("/api/registro", registroRoutes);
 app.use("/api/credenciales", credencialesRoutes);
 
-//export default serverless(app);
+ export default serverless(app);
 
-app.listen(puerto, ()=>{
-    console.log("servidor corriendo en el puerto "+puerto);
-});
+ 
+
 
 
 
