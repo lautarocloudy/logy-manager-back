@@ -1,24 +1,19 @@
 import mongoose from 'mongoose';
 
-const MONGO_URI = "mongodb+srv://logy:123@cluster0.pegtvdi.mongodb.net/logy-manager?retryWrites=true&w=majority";
-
-let isConnected = false; // 🔒 cache de conexión
+let isConnected = false;
 
 const connectDB = async () => {
-  if (isConnected) {
-    console.log("🟢 Ya conectado a MongoDB");
-    return;
-  }
+  if (isConnected) return;
 
   try {
-    const db = await mongoose.connect(MONGO_URI, {
-      serverSelectionTimeoutMS: 5000, // evita que tarde demasiado
+    const db = await mongoose.connect("mongodb+srv://logy:123@cluster0.pegtvdi.mongodb.net/logy-manager?retryWrites=true&w=majority", {
+      serverSelectionTimeoutMS: 5000,
     });
     isConnected = !!db.connections[0].readyState;
     console.log("✅ MongoDB conectado correctamente");
   } catch (error) {
     console.error("❌ Error conectando MongoDB:", error.message);
-    throw new Error("Fallo la conexión a MongoDB");
+    throw error;
   }
 };
 
