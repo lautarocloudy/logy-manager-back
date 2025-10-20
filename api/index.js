@@ -16,16 +16,33 @@ dotenv.config();
 await connectDB();
 
 const app = express();
-const allowedOrigins = [
-  "https://logy-manager.netlify.app",  
-  "http://localhost:5173" 
-];
+const options = {
+	allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token', 'Authorization'],
+	credentials: true,
+	origin: 'https://logy-manager.netlify.app/',
+	preflightContinue: false,
+	
+	// origin: function (origin, callback) {
+	//   const allowedOrigins = [
+	// 	'https://ai-server-arg.netlify.app/',  // Dominio de producción
+	// 	'http://localhost:3000',          // Localhost para desarrollo
+	// 	  'http://127.0.0.1:5173/',
+	// 	'null',                            // Permite el origen 'file://'
+	//   ];
+	//   if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+	// 	// Si el origen está en la lista o no hay origen (por ejemplo, en solicitudes 'file://')
+	// 	callback(null, true);
+	//   } else {
+	// 	callback(new Error('Not allowed by CORS'));
+	//   }
+	// },
+	// methods: 'GET,POST,PUT,DELETE,OPTIONS',
+	// allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token', 'Authorization'],
+	// credentials: true // Habilita las credenciales
+};
 
-app.use(cors({
-  origin: allowedOrigins,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  credentials: true
-}));
+// configurar cors
+app.use(cors(options));
 app.use(express.json());
 
 // Rutas
@@ -38,4 +55,5 @@ app.use("/api/registro", registroRoutes);
 app.use("/api/credenciales", credencialesRoutes);
 
 export default serverless(app);
+
 
