@@ -39,5 +39,5 @@ app.use("/api/registro", registroRoutes);
 app.use("/api/credenciales", credencialesRoutes);
 
 // Exportar para Vercel
-export const handler = serverless(app);
-export default app;
+export default serverless(app);
+
