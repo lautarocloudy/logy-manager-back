@@ -16,7 +16,16 @@ dotenv.config();
 await connectDB();
 
 const app = express();
-app.use(cors());
+const allowedOrigins = [
+  "https://logy-manager.netlify.app",  
+  "http://localhost:5173" 
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true
+}));
 app.use(express.json());
 
 // Rutas
@@ -29,3 +38,4 @@ app.use("/api/registro", registroRoutes);
 app.use("/api/credenciales", credencialesRoutes);
 
 export default serverless(app);
+
